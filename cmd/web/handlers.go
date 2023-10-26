@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
-	"unicode/utf8"
+	// "strings"
+	// "unicode/utf8"
 
 	"github.com/dheepika6/LetsGoWebProgram/internal/models"
 	"github.com/dheepika6/LetsGoWebProgram/internal/validator"
@@ -95,10 +95,9 @@ func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request
 	}
 
 	form := snippetCreateForm{
-		Title:       title,
-		Content:     content,
-		Expires:     expires,
-		FieldErrors: map[string]string{},
+		Title:   title,
+		Content: content,
+		Expires: expires,
 	}
 
 	form.CheckField(validator.NotBlank(form.Title), "title", "The field cannot be blank")

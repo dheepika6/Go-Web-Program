@@ -9,6 +9,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/alexedwards/scs/v2"
 	"github.com/dheepika6/LetsGoWebProgram/internal/models"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -17,9 +18,10 @@ import (
 // web application. For now we'll only include the structured logger, but we'll
 // add more to this as the build progresses.
 type application struct {
-	logger    *slog.Logger
-	snippets  *models.SnippetModel
-	templates map[string]*template.Template
+	logger         *slog.Logger
+	snippets       *models.SnippetModel
+	templates      map[string]*template.Template
+	sessionManager *scs.SessionManager
 }
 
 func main() {
@@ -53,7 +55,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	app := &application{logger: logger, snippets: &models.SnippetModel{DB: db}, templates: parsedTemplate}
+	/** setting up session manager */
+
+	sessionManager := scs.New()
+
+	app := &application{logger: logger, snippets: &models.SnippetModel{DB: db}, templates: parsedTemplate, sessionManager: sessionManager}
 
 	keys := make([]string, 0, len(parsedTemplate))
 
